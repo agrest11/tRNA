@@ -2,6 +2,7 @@ import operator
 
 all_clusters = []
 org_clusters = []
+names = []
 clust = {}
 clust_org = {}
 
@@ -19,7 +20,7 @@ files = ["A.alpina/A-alpina-clusters-filtr.txt", "A.thaliana/A-thaliana-clusters
 		"E.cheiranthoides/E-cheiranthoides-clusters-filtr.txt", "I.tinctoria/I-tinctoria-clusters-filtr.txt",
 		"P.cornutum/P-cornutum-clusters-filtr.txt", "R.raphanistrum/R-raphanistrum-clusters-filtr.txt", "T.arvense/T-arvense-clusters-filtr.txt"]
 
-for file in files:
+for count, file in enumerate(files):
 	with open(file, "r") as f2:
 		for line in f2:
 			if not line == "\n":
@@ -37,11 +38,11 @@ for file in files:
 
 			if clust1 in clust_org:
 				# append the new number to the existing array at this slot
-				if file not in clust_org[clust1]:
-					clust_org[clust1].append(file)
+				if file.split("/")[0] not in clust_org[clust1]:
+					clust_org[clust1].append(file.split("/")[0])
 			else:
 				# create a new array in this slot
-				clust_org[clust1] = [file]
+				clust_org[clust1] = [file.split("/")[0]]
 
 	org_clusters = []
 
@@ -54,6 +55,11 @@ d = dict(sorted(clust.items(), key=operator.itemgetter(1), reverse=True))
 	if d[key] > 1:
 		print(key, d[key])'''
 
+for key in d:
+	if key in clust_org and d[key] > 1:
+		all_names = " ".join(clust_org[key])
+		print(f"{key} {d[key]} {all_names}")
+
 '''for key in d:
-    if key in clust_org:
-        print(key, d[key], clust_org[key])'''
+	if d[key] > 1:
+		print(key, d[key])'''

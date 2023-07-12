@@ -6,7 +6,7 @@ for directory in $(ls -d */); do echo "$directory"; filefasta=($directory/*.fna)
 python3 1-trna-genes.py $filefasta $filess $directory; done
 com
 
-#sprawdzenie
+#sprawdzenie - brak skryptu
 <<com
 for directory in $(ls -d */); do echo "$directory"; fileout=($directory/trnascan/4*.ss); 
 python3 test-trna-genes.py $fileout; done
@@ -15,7 +15,7 @@ com
 #puszczenie algorytmu do znalezienia klastrów
 <<com
 for directory in $(ls -d */); do echo "$directory"; fileout=($directory/trnascan/2*.out); 
-python3 2-clusters2.py $fileout $directory; done
+python3 2-clusters.py $fileout $directory; done
 com
 
 #puszczenie algorytmu do znalezienia takich samych klastrów u różnych organizmów
@@ -28,20 +28,20 @@ then
   	echo "$directory2"
 	filecluster1=($directory1/*clusters.txt)
 	filecluster2=($directory2/*clusters.txt)
-	python3 3-compare2.py $filecluster1 $filecluster2 > wynik.txt
+	python3 3-compare.py $filecluster1 $filecluster2 > wynik.txt
 	python3 4-check.py $directory1 $directory2
 fi
 rm filtr*.txt
 rm wynik.txt
 done
 done
-mkdir compared
-mv *-vs-*.txt compared/
-mv next.py compared/
+mkdir compared2
+mv *-vs-*.txt compared2/
+mv next.py compared2/
 com
 
 <<com
-cd compared
+cd compared2
 for file in $(ls *.txt); do python3 next.py $file; done
 com
 
@@ -54,15 +54,15 @@ for directory in $(ls -d */); do echo "$directory"; file=($directory/*clusters.t
 com
 
 <<com
-for directory in $(ls -d */); do echo "$directory"; file=($directory/*clusters-ids.txt); file2=($directory/*flanks.txt); 
+for directory in $(ls -d */); do echo "$directory"; file=($directory/*clusters-ids.txt); file2=($directory/*flanks.fa); 
 python3 7-get-single-trnas.py $file $file2; done
 com
 
-<<com
+
 for directory in $(ls -d */); do echo "$directory"; file=($directory/trnascan/2*.ss); python3 8-count-contigs.py $file >> contigs.txt; done
-com
 
 
+<<com
 for directory in $(ls -d */); do
 file=($directory/*.csv); 
 if test -f "$file"; then
@@ -70,3 +70,4 @@ if test -f "$file"; then
     python3 9-synteny.py $file
 fi; 
 done
+com

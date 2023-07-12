@@ -88,14 +88,19 @@ if __name__ == '__main__':
     for key in coords:
         flanks.append(get_with_flanks(key, coords[key][0], coords[key][1]))
 
-    filename = sys.argv[3] + "-flanks"
+    '''filename = sys.argv[3] + "-flanks"
     filename = filename.replace("/", "")
     filename = filename.replace(".", "-")
-    filename = filename + ".txt"
+    filename = filename + ".fa"
     new_file = open(filename, "a")
     i = 0
     for flank in flanks:
         new_file.write('>{} | {} {} | {}'.format(new_ids[i], starts[i], ends[i], strand[i]))
         new_file.write("\n" + flank + "\n")
         i += 1
-    new_file.close()
+    new_file.close()'''
+
+    with open('genes.txt', 'w') as f:
+        for coord in coords:
+            f.write('>{} | {} {}'.format(coord, coords[coord][0], coords[coord][1]))
+            f.write("\n" + coords[coord][2] + "\n")

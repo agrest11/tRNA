@@ -28,7 +28,10 @@ for i in range(0, len(clust)):
 	filtr.append(string2.replace("::::", "::"))
 	j += 1
 
-filename = sys.argv[1] + "-cluster-filtr"
+filename = sys.argv[1]
+filename = filename.replace(".txt", "-")
+filename = filename + "filtr.txt"
+
 f = open(filename, "w")
 for e in filtr:
 	f.write(e + "\n")
